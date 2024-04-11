@@ -23,11 +23,24 @@ def get_sales_data():
     """
     print("Please enter sales data.")
     print("Data should be 3 numbers separated by commas.")
-    print("Example: 1,2,3,4,5,6")
+    print("Example: 1,2,3,4,5,6\n")
 
     data_str = input("Enter your data here:")
     print(f"The data you provided is {data_str}")
+    sales_data = data_str.split(",")
+    validate_data (sales_data)
 
 
+def validate_data(values):
+    """
+    Inside the try converts all string into integers. Raises a ValueError if string cannot be converted, or if there aren't exactly 6 values.
+    """
+    try:
+        if len(values) != 3:
+            raise ValueError (
+                f'Exactly 3 values required, you provided {len(values)}'
+            )
+    except ValueError as e:
+        print(f'Invalid data: {e}, please try again. \n')
 get_sales_data()
 

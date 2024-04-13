@@ -49,7 +49,7 @@ def validate_data(values):
 
     return True
 
-def update_sales_data(data):
+def update_sales_worksheet(data):
     """
     Update sales worksheet, add new row with the list of data provided
     """
@@ -74,7 +74,16 @@ def calculate_surplus_data(sales_row):
     for stock, sales in zip(stock_row, sales_row):
         surplus = int(stock)-int(sales)
         surplus_data.append(surplus)
-    print(surplus_data)
+    return surplus_data
+
+def update_surplus_worksheet(data):
+    """
+    Update surplus worksheet, add new row with the list of data provided
+    """
+    print("Updating surplus worksheet... \n")
+    surplus_worksheet = SHEET.worksheet("surplus")
+    surplus_worksheet.append_row(data)
+    print("Surplus worksheet update succesfully. \n")
 
 def main():
     """
@@ -82,8 +91,9 @@ def main():
     """
     data = get_sales_data()
     sales_data = [int(num) for num in data]
-    update_sales_data(sales_data)
-    calculate_surplus_data(sales_data)
+    update_sales_worksheet(sales_data)
+    new_surplus_data = calculate_surplus_data(sales_data)
+    update_surplus_worksheet(new_surplus_data)
 
 print("welcome to the data warehouse")
 main()

@@ -17,16 +17,21 @@ def get_sales_data():
     """
     Get sales figures
     """
-    print("Please enter sales data.")
-    print("Data should be 3 numbers separated by commas.")
-    print("Example: 1,2,3\n")
+    while True:
+        print("Please enter sales data.")
+        print("Data should be 3 numbers separated by commas.")
+        print("Example: 1,2,3\n")
 
-    data_str = input("Enter your data here:")
+        data_str = input("Enter your data here:")
 
-    sales_data = data_str.split(",")
-    validate_data(sales_data)
+        sales_data = data_str.split(",")
+        validate_data(sales_data)
 
-
+        if validate_data(sales_data):
+            print("Data is valid")
+            break
+    return sales_data
+    
 def validate_data(values):
     """
     Inside the try converts all string into integers.
@@ -36,12 +41,11 @@ def validate_data(values):
     try:
         [int(value) for value in values]
         if len(values) != 3:
-            raise ValueError(
-                f'Exactly 3 values required, you provided {len(values)}'
-            )
+            raise ValueError(f'Exactly 3 values required, you provided {len(values)}')
     except ValueError as e:
         print(f'Invalid data: {e}, please try again. \n')
 
+    return True
 
-get_sales_data()
-
+data = get_sales_data()
+print(data)

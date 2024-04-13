@@ -49,14 +49,15 @@ def validate_data(values):
 
     return True
 
-def update_sales_worksheet(data):
+def update_worksheet (data, worksheet):
     """
-    Update sales worksheet, add new row with the list of data provided
+    Update worksheets
     """
-    print("Updating sales worksheet... \n")
-    sales_worksheet = SHEET.worksheet("sales")
-    sales_worksheet.append_row(data)
-    print("Sales worksheet update succesfully. \n")
+    print(f'Updating {worksheet} worksheet... \n')
+    worksheet_to_update = SHEET.worksheet(f'{worksheet}')
+    worksheet_to_update.append_row(data)
+    print(f'{worksheet} worksheet update succesfully. \n')
+
 
 def calculate_surplus_data(sales_row):
     """
@@ -76,14 +77,17 @@ def calculate_surplus_data(sales_row):
         surplus_data.append(surplus)
     return surplus_data
 
-def update_surplus_worksheet(data):
+def get_last_5_sales():
     """
-    Update surplus worksheet, add new row with the list of data provided
+    Collects columns of the data from sales worksheet,
+    collecting the last 4 entries for each pie typeand returns data as a list
     """
-    print("Updating surplus worksheet... \n")
-    surplus_worksheet = SHEET.worksheet("surplus")
-    surplus_worksheet.append_row(data)
-    print("Surplus worksheet update succesfully. \n")
+    sales = SHEET.worksheet("sales")
+    columns = []
+    for ind in range(1,4):
+        last_5 = sales.col_values(ind)[-5:]
+        columns.append(last_5)
+    return columns
 
 def main():
     """
@@ -91,9 +95,13 @@ def main():
     """
     data = get_sales_data()
     sales_data = [int(num) for num in data]
-    update_sales_worksheet(sales_data)
+    update_worksheet(sales_data, "sales")
     new_surplus_data = calculate_surplus_data(sales_data)
-    update_surplus_worksheet(new_surplus_data)
+    update_worksheet(new_surplus_data, "surplus")
+    last_5_sales = get_last_5_sales()
+    #print(last_5_sales)
+    #update_worksheet(last_5_sales, "last5sales")
+    
 
 print("welcome to the data warehouse")
 main()

@@ -1,5 +1,7 @@
 import gspread
 from google.oauth2.service_account import Credentials
+from pprint import pprint
+
 SCOPE = [
     "https://www.googleapis.com/auth/spreadsheets",
     "https://www.googleapis.com/auth/drive.file",
@@ -47,5 +49,36 @@ def validate_data(values):
 
     return True
 
-data = get_sales_data()
-print(data)
+def update_sales_data(data):
+    """
+    Update sales worksheet, add new row with the list of data provided
+    """
+    print("Updating sales worksheet... \n")
+    sales_worksheet = SHEET.worksheet("sales")
+    sales_worksheet.append_row(data)
+    print("Sales worksheet update succesfully. \n")
+
+def calculate_surplus_data(sales_row):
+    """
+    Compare sales and stock data
+    
+    The surplus is defined as the sales - stock:
+    - Positive surplus indicates waste
+    - Negative surplus indiactes extra made
+    """
+    print("Calculating surplus data... \n")
+    stock = SHEET.worksheet("stock").get_all_values()
+    stock_row = stock[-1]
+    pprint(stock_row)
+
+def main():
+    """
+    run all functions
+    """
+    data = get_sales_data()
+    sales_data = [int(num) for num in data]
+    update_sales_data(sales_data)
+    calculate_surplus_data(sales_data)
+
+print("welcome to the data warehouse")
+main()

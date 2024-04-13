@@ -89,6 +89,22 @@ def get_last_5_sales():
         columns.append(last_5)
     return columns
 
+def calculate_stock_data(data):
+    """
+    calculate how much stock is needed
+    """
+    print("calculating stock data... \n")
+    new_stock_data = []
+    
+    for column in data:
+        int_column = [int(num) for num in column]
+        average = sum(int_column)/len(int_column)
+        stock_num = round(average * 1.1)
+        new_stock_data.append(stock_num)
+    
+    return new_stock_data
+
+
 def main():
     """
     run all functions
@@ -99,9 +115,17 @@ def main():
     new_surplus_data = calculate_surplus_data(sales_data)
     update_worksheet(new_surplus_data, "surplus")
     last_5_sales = get_last_5_sales()
+    stock_data = calculate_stock_data(last_5_sales)
+    update_worksheet(stock_data, "stock")
+    
     #print(last_5_sales)
     #update_worksheet(last_5_sales, "last5sales")
     
 
 print("welcome to the data warehouse")
 main()
+
+
+
+
+

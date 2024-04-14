@@ -118,9 +118,6 @@ def main():
     stock_data = calculate_stock_data(last_5_sales)
     update_worksheet(stock_data, "stock")
     
-    #print(last_5_sales)
-    #update_worksheet(last_5_sales, "last5sales")
-    
 
 print("welcome to the data warehouse")
 main()
